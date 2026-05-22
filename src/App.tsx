@@ -6,28 +6,34 @@ import { ChatScreen } from './components/ChatScreen'
 import { SettingsScreen } from './components/SettingsScreen'
 import { TopProgressBar } from './components/TopProgressBar'
 import { useLocalStorageState } from './hooks/useLocalStorageState'
+import { createAssistantReply, fetchProviderModels, ProviderError } from './lib/providerService'
 import { defaultSettings, loadMessages, loadSettings, saveMessages, saveSettings } from './lib/storage'
-import type { ChatMessage, TabId } from './types'
+import type { AppSettings, ChatMessage, TabId } from './types'
 
 function buildMockReply(input: string): string {
-  return `This is a local mock reply for now.\n\nYou said: **${input.slice(0, 160)}**\n\nConnect a real provider in a later slice.`
+  return `This is a local mock reply for now.\n\nYou said: **${input.slice(0, 160)}**\n\nAdd an API key in Settings to enable real provider responses.`
 }
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>('chat')
   const [draft, setDraft] = useState('')
   const [messages, setMessages] = useLocalStorageState<ChatMessage[]>(loadMessages, saveMessages)
-  const [settings, setSettings] = useLocalStorageState(loadSettings, saveSettings)
+  const [settings, setSettings] = useLocalStorageState<AppSettings>(loadSettings, saveSettings)
+  const [isSending, setIsSending] = useState(false)
+  const [chatError, setChatError] = useState<string | null>(null)
+  const [modelsError, setModelsError] = useState<string | null>(null)
+  const [isFetchingModels, setIsFetchingModels] = useState(false)
 
   const progress = useMemo(() => {
     const usage = Math.min(100, Math.max(8, Math.round((messages.length % 24) * 4.2)))
     return usage
   }, [messages.length])
 
-  const sendMessage = (event: FormEvent) => {
+  const sendMessage = async (event: FormEvent) => {
     event.preventDefault()
     const text = draft.trim()
-    if (!text) return
+    if (!text || isSending) return
+    setChatError(null)
 
     const userMessage: ChatMessage = {
       id: crypto.randomUUID(),
@@ -36,16 +42,54 @@ export default function App() {
       createdAt: new Date().toISOString(),
     }
 
-    const assistantMessage: ChatMessage = {
-      id: crypto.randomUUID(),
-      role: 'assistant',
-      content: buildMockReply(text),
-      createdAt: new Date().toISOString(),
-      isMock: true,
+    const history = [...messages, userMessage]
+    setMessages(history)
+    setDraft('')
+
+    if (!settings.apiKey.trim()) {
+      const assistantMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content: buildMockReply(text),
+        createdAt: new Date().toISOString(),
+        isMock: true,
+      }
+      setMessages((prev) => [...prev, assistantMessage])
+      return
     }
 
-    setMessages((prev) => [...prev, userMessage, assistantMessage])
-    setDraft('')
+    setIsSending(true)
+    try {
+      const content = await createAssistantReply(settings, history)
+      const assistantMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content,
+        createdAt: new Date().toISOString(),
+      }
+      setMessages((prev) => [...prev, assistantMessage])
+    } catch (error) {
+      const message = error instanceof ProviderError ? error.message : 'Unexpected error while generating response.'
+      setChatError(message)
+    } finally {
+      setIsSending(false)
+    }
+  }
+
+  const handleFetchModels = async () => {
+    setModelsError(null)
+    setIsFetchingModels(true)
+    try {
+      const modelIds = await fetchProviderModels(settings)
+      if (modelIds.length > 0) {
+        setSettings({ ...settings, model: modelIds[0] })
+      }
+    } catch (error) {
+      const message = error instanceof ProviderError ? error.message : 'Unexpected error while fetching models.'
+      setModelsError(message)
+    } finally {
+      setIsFetchingModels(false)
+    }
   }
 
   return (
@@ -59,7 +103,13 @@ export default function App() {
 
         {activeTab === 'chat' ? <ChatScreen messages={messages} /> : null}
         {activeTab === 'settings' ? (
-          <SettingsScreen settings={settings || defaultSettings} onChange={setSettings} />
+          <SettingsScreen
+            settings={settings || defaultSettings}
+            onChange={setSettings}
+            onFetchModels={handleFetchModels}
+            isFetchingModels={isFetchingModels}
+            modelsError={modelsError}
+          />
         ) : null}
         {activeTab !== 'chat' && activeTab !== 'settings' ? (
           <section className="glass-panel mt-4 rounded-3xl p-6 text-sm text-[#6B4B5B]">
@@ -76,14 +126,18 @@ export default function App() {
                 placeholder="Type a message"
                 rows={2}
                 className="input-base min-h-[56px] flex-1"
+                disabled={isSending}
               />
               <button
                 type="submit"
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F9C5D5] text-[#4A2C3D] shadow transition hover:brightness-105"
+                disabled={isSending}
+                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F9C5D5] text-[#4A2C3D] shadow transition hover:brightness-105 disabled:opacity-60"
               >
                 <SendHorizonal className="h-5 w-5" />
               </button>
             </div>
+            {isSending ? <p className="mt-2 text-sm text-[#6B4B5B]">Waiting for provider response…</p> : null}
+            {chatError ? <p className="mt-2 text-sm text-[#8C2F39]">{chatError}</p> : null}
           </form>
         ) : null}
       </main>

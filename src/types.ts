@@ -10,8 +10,10 @@ export interface ChatMessage {
 
 export type TabId = 'chat' | 'memory' | 'journal' | 'diagnostics' | 'settings'
 
+export type ProviderPresetId = 'groq' | 'gemini' | 'openrouter' | 'deepseek' | 'custom'
+
 export interface AppSettings {
-  provider: string
+  provider: ProviderPresetId
   baseUrl: string
   apiKey: string
   model: string

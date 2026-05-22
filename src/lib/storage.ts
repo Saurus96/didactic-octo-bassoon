@@ -4,10 +4,10 @@ const MESSAGES_KEY = 'cozy-companion.messages.v1'
 const SETTINGS_KEY = 'cozy-companion.settings.v1'
 
 export const defaultSettings: AppSettings = {
-  provider: 'OpenAI-compatible',
-  baseUrl: 'https://api.example.com/v1',
+  provider: 'groq',
+  baseUrl: 'https://api.groq.com/openai/v1',
   apiKey: '',
-  model: 'gpt-4.1-mini',
+  model: 'llama-3.3-70b-versatile',
   systemPrompt:
     'You are a warm, thoughtful companion. Keep responses clear, kind, and practical.',
 }
@@ -30,7 +30,8 @@ export function loadSettings(): AppSettings {
   const raw = localStorage.getItem(SETTINGS_KEY)
   if (!raw) return defaultSettings
   try {
-    return { ...defaultSettings, ...(JSON.parse(raw) as AppSettings) }
+    const parsed = JSON.parse(raw) as Partial<AppSettings>
+    return { ...defaultSettings, ...parsed }
   } catch {
     return defaultSettings
   }
