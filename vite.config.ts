@@ -10,10 +10,10 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Cozy Companion',
-        short_name: 'Cozy',
-        theme_color: '#FFF8F0',
-        background_color: '#FFF8F0',
+        name: 'Τεχνίκιον',
+        short_name: 'Τεχνίκιον',
+        theme_color: '#F8F1EA',
+        background_color: '#F8F1EA',
         display: 'standalone',
         start_url: '/',
         icons: [

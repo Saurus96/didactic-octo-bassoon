@@ -1,4 +1,4 @@
-import { SendHorizonal } from 'lucide-react'
+import { Sparkles, SendHorizonal } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BottomNav } from './components/BottomNav'
@@ -93,12 +93,16 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF8F0] via-[#FFF8F0] to-[#FDE8F1] text-[#3A2A4A]">
+    <div className="min-h-screen bg-gradient-to-b from-[#F8F1EA] via-[#F7EFE8] to-[#F5ECE7] text-[#4E414D]">
       <TopProgressBar value={progress} />
       <main className="mx-auto flex min-h-screen w-full max-w-xl flex-col px-4 pb-24 pt-4">
-        <header className="glass-panel mt-3 rounded-3xl p-4">
-          <h1 className="text-lg font-semibold">Cozy Companion</h1>
-          <p className="text-sm text-[#6B4B5B]">A soft local shell for future AI conversations.</p>
+        <header className="glass-panel mt-3 rounded-[2rem] p-6 text-center">
+          <h1 className="text-4xl font-semibold tracking-wide text-[#8D8198] sm:text-[2.7rem]">Τεχνίκιον</h1>
+          <p className="mt-2 flex items-center justify-center gap-2 text-sm tracking-[0.22em] text-[#A194AA]">
+            <Sparkles className="h-4 w-4" aria-hidden="true" />
+            <span>tekh-NEE-kee-on</span>
+          </p>
+          <p className="mt-3 text-sm text-[#6D5E6C]">A soft local shell for future AI conversations.</p>
         </header>
 
         {activeTab === 'chat' ? <ChatScreen messages={messages} /> : null}
@@ -118,26 +122,26 @@ export default function App() {
         ) : null}
 
         {activeTab === 'chat' ? (
-          <form onSubmit={sendMessage} className="glass-panel fixed bottom-24 left-4 right-4 z-30 mx-auto max-w-xl rounded-3xl p-3">
-            <div className="flex items-end gap-2">
+          <form onSubmit={sendMessage} className="glass-panel fixed bottom-24 left-4 right-4 z-30 mx-auto max-w-xl rounded-full p-2.5">
+            <div className="flex items-center gap-2">
               <textarea
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
                 placeholder="Type a message"
-                rows={2}
-                className="input-base min-h-[56px] flex-1"
+                rows={1}
+                className="input-base min-h-[52px] flex-1 rounded-full px-5 py-3"
                 disabled={isSending}
               />
               <button
                 type="submit"
                 disabled={isSending}
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F9C5D5] text-[#4A2C3D] shadow transition hover:brightness-105 disabled:opacity-60"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E9B9C9] text-[#5B4050] shadow-[0_10px_22px_rgba(140,96,118,0.25)] transition hover:brightness-105 disabled:opacity-60"
               >
                 <SendHorizonal className="h-5 w-5" />
               </button>
             </div>
-            {isSending ? <p className="mt-2 text-sm text-[#6B4B5B]">Waiting for provider response…</p> : null}
-            {chatError ? <p className="mt-2 text-sm text-[#8C2F39]">{chatError}</p> : null}
+            {isSending ? <p className="mt-2 px-3 text-sm text-[#766777]">Waiting for provider response…</p> : null}
+            {chatError ? <p className="mt-2 px-3 text-sm text-[#8C2F39]">{chatError}</p> : null}
           </form>
         ) : null}
       </main>

@@ -1,12 +1,13 @@
 @import 'tailwindcss';
 
 :root {
-  font-family: Inter, 'Segoe UI', sans-serif;
+  font-family: 'Inter', 'Avenir Next', 'Segoe UI', sans-serif;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  background: linear-gradient(180deg, #f8f1ea 0%, #f5ece7 100%);
 }
 
 #root {
@@ -14,23 +15,23 @@ body {
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.56);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 24px rgba(104, 71, 89, 0.12);
+  background: linear-gradient(160deg, rgba(255, 251, 249, 0.72), rgba(252, 239, 244, 0.56));
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 246, 249, 0.8);
+  box-shadow: 0 12px 30px rgba(117, 93, 112, 0.12);
 }
 
 .input-base {
   width: 100%;
   border-radius: 1rem;
-  border: 1px solid rgba(197, 185, 230, 0.8);
-  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(215, 199, 220, 0.85);
+  background: rgba(255, 252, 251, 0.88);
   padding: 0.7rem 0.9rem;
-  color: #3a2a4a;
+  color: #4f414c;
   outline: none;
 }
 
 .input-base:focus {
-  border-color: #c5b9e6;
-  box-shadow: 0 0 0 2px rgba(197, 185, 230, 0.3);
+  border-color: #ccb8d7;
+  box-shadow: 0 0 0 2px rgba(204, 184, 215, 0.28);
 }

@@ -1,6 +1,9 @@
-# Cozy Companion Foundation
+# Τεχνίκιον
 
-A first foundation slice for a cozy AI companion web app using React + TypeScript + Vite.
+**tekh-NEE-kee-on**  
+A soft local shell for future AI conversations.
+
+This project is a mobile-first React + TypeScript + Vite app focused on a cozy local-shell chat experience with real provider connectivity and local mock mode.
 
 ## Install
 
@@ -19,6 +22,14 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## Current scope
+
+- Soft, minimal chat shell UI with bottom tab scaffold (Chat, Memory, Journal, Diagnostics, Settings).
+- Real provider chat completions via OpenAI-compatible HTTP APIs.
+- Local mock chat fallback when API key is not configured.
+- Settings persistence in browser localStorage.
+- Fetch Models action in Settings for compatible providers.
 
 ## Provider configuration
 
@@ -51,17 +62,3 @@ If API key is blank, chat stays in **local mock mode**:
 - Non-streaming chat completions only.
 - Fetch Models uses `/models` for OpenAI-compatible providers and gracefully reports incompatible responses.
 - No web search, memory extraction, MCP, embeddings, file upload, tool calling, or diagnostics integration yet.
-
-## Implemented in this PR
-
-- React + TypeScript + Vite app scaffold
-- Tailwind CSS styling pipeline
-- Mobile-first cozy UI shell with pastel gradients and glassmorphism panels
-- Top 3px context usage progress bar
-- Bottom navigation with Chat, Memory, Journal, Diagnostics, and Settings tabs
-- Chat screen with markdown message rendering
-- Local persistence for chat messages (localStorage)
-- Settings form with provider presets, editable endpoints, and fetch models action
-- OpenAI-compatible browser `fetch` provider service for models + chat completions
-- Local-only mock mode fallback when API key is missing
-- Minimal PWA scaffolding via Vite PWA plugin
