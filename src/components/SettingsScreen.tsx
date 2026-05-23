@@ -34,9 +34,9 @@ export function SettingsScreen({
   }
 
   return (
-    <section className="space-y-4 pb-28 pt-4">
+    <section className="space-y-4 pb-[calc(132px+env(safe-area-inset-bottom))] pt-4">
       <div className="glass-panel rounded-3xl p-4 text-sm text-[#6B4B5B]">
-        API keys stored in this browser are not hidden. Use only personal keys on trusted devices.
+        Keys stored in this browser are not hidden. Use only personal keys on trusted devices.
       </div>
 
       <label className="glass-panel block rounded-3xl p-4">
