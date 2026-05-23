@@ -10,18 +10,15 @@ interface ChatScreenProps {
 
 export function ChatScreen({ messages, onScroll }: ChatScreenProps) {
   return (
-    <section
-      onScroll={(event) => onScroll(event.currentTarget.scrollTop)}
-      className="flex-1 overflow-y-auto px-1 pb-[calc(132px+env(safe-area-inset-bottom))] pt-3"
-    >
+    <section onScroll={(event) => onScroll(event.currentTarget.scrollTop)} className="chat-scroll">
       {messages.length === 0 ? (
-        <div className="glass-panel-soft mt-4 rounded-[28px] p-6 text-center text-[#6f6075]">
+        <div className="glass-card glass-readable mt-3 rounded-[24px] p-5 text-center text-[#6f6075]">
           <p className="text-base font-medium">Begin a thread.</p>
           <p className="mt-1 text-sm text-[#8f8297]">Τεχνίκιον is ready when you are.</p>
         </div>
       ) : null}
 
-      <div className="space-y-4 pb-6">
+      <div className="space-y-3 pb-6 pt-2">
         {messages.map((message) => {
           const isUser = message.role === 'user'
           return (
@@ -29,11 +26,7 @@ export function ChatScreen({ messages, onScroll }: ChatScreenProps) {
               key={message.id}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`rounded-[28px] border px-4 py-3 shadow-[0_8px_26px_rgba(112,86,109,0.11)] ${
-                isUser
-                  ? 'ml-auto max-w-[85%] border-[#EAC5D2] bg-[rgba(244,199,214,0.72)] text-[#5B4652]'
-                  : 'mr-auto max-w-[85%] border-[#D9CAE9] bg-[rgba(230,221,245,0.78)] text-[#4A3C57]'
-              }`}
+              className={`chat-bubble ${isUser ? 'chat-bubble-user' : 'chat-bubble-assistant'}`}
             >
               <div className="prose prose-sm prose-p:my-1 prose-headings:my-2 prose-code:rounded prose-code:bg-white/60 prose-code:px-1 prose-code:py-0.5 max-w-none break-words text-inherit">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>

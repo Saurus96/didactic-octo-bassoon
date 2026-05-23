@@ -34,12 +34,12 @@ export function SettingsScreen({
   }
 
   return (
-    <section className="space-y-4 pb-[calc(132px+env(safe-area-inset-bottom))] pt-4">
-      <div className="glass-panel rounded-3xl p-4 text-sm text-[#6B4B5B]">
+    <section className="space-y-3 pb-6 pt-1">
+      <div className="glass-card glass-readable rounded-3xl p-4 text-sm text-[#6B4B5B]">
         Keys stored in this browser are not hidden. Use only personal keys on trusted devices.
       </div>
 
-      <label className="glass-panel block rounded-3xl p-4">
+      <label className="glass-card glass-readable block rounded-3xl p-4">
         <span className="mb-2 block text-sm font-medium text-[#513D4B]">Provider</span>
         <select
           value={settings.provider}
@@ -55,7 +55,7 @@ export function SettingsScreen({
       </label>
 
       {textFields.map((field) => (
-        <label key={field.key} className="glass-panel block rounded-3xl p-4">
+        <label key={field.key} className="glass-card glass-readable block rounded-3xl p-4">
           <span className="mb-2 block text-sm font-medium text-[#513D4B]">{field.label}</span>
           <input
             type={field.key === 'apiKey' ? 'password' : 'text'}
@@ -66,7 +66,7 @@ export function SettingsScreen({
         </label>
       ))}
 
-      <label className="glass-panel block rounded-3xl p-4">
+      <label className="glass-card glass-readable block rounded-3xl p-4">
         <span className="mb-2 block text-sm font-medium text-[#513D4B]">System prompt</span>
         <textarea
           value={settings.systemPrompt}
@@ -76,12 +76,12 @@ export function SettingsScreen({
         />
       </label>
 
-      <div className="glass-panel rounded-3xl p-4">
+      <div className="glass-card glass-readable rounded-3xl p-4">
         <button
           type="button"
           onClick={onFetchModels}
           disabled={isFetchingModels}
-          className="rounded-2xl bg-[#F9C5D5] px-4 py-2 text-sm font-medium text-[#4A2C3D] disabled:opacity-60"
+          className="interactive h-11 rounded-2xl bg-[#F9C5D5] px-4 py-2 text-sm font-medium text-[#4A2C3D] disabled:opacity-60"
         >
           {isFetchingModels ? 'Fetching models…' : 'Fetch models'}
         </button>
