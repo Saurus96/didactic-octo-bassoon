@@ -1,9 +1,11 @@
-import { SendHorizonal, Sparkles } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { ChatScreen } from './components/ChatScreen'
-import { HamburgerButton } from './components/HamburgerButton'
+import { FloatingGlassInput } from './components/FloatingGlassInput'
+import { GlassAppBar } from './components/GlassAppBar'
 import { ModalDrawer } from './components/ModalDrawer'
+import { PageContainer } from './components/PageContainer'
+import { PageTitleChip } from './components/PageTitleChip'
 import { SettingsScreen } from './components/SettingsScreen'
 import { TopProgressBar } from './components/TopProgressBar'
 import { useLocalStorageState } from './hooks/useLocalStorageState'
@@ -41,7 +43,6 @@ export default function App() {
   const messages = activeChat?.messages ?? []
   const hasMessages = messages.length > 0
   const progress = useMemo(() => Math.min(100, Math.max(8, Math.round((messages.length % 24) * 4.2))), [messages.length])
-
 
   const createFreshChat = () => {
     const chat = createNewChat()
@@ -111,9 +112,10 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-b from-[#F8F1EA] via-[#F7EFE8] to-[#F5ECE7] text-[#4E414D]">
+    <div className="app-shell">
       <TopProgressBar value={progress} />
-      <HamburgerButton onClick={() => setDrawerOpen(true)} />
+      <div className="background-blobs" aria-hidden="true"><span className="blob mint" /><span className="blob peach" /><span className="blob periwinkle" /><span className="blob lavender" /></div>
+      <GlassAppBar onOpenNavigation={() => setDrawerOpen(true)} />
       <ModalDrawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
@@ -137,40 +139,23 @@ export default function App() {
         }}
       />
 
-      <main className="mx-auto flex min-h-[100dvh] w-full max-w-xl flex-col px-4 pt-16">
-        {activeTab === 'chat' ? (
-          hasMessages ? (
-            <header className="glass-panel-ambient sticky top-3 z-20 mt-2 rounded-3xl px-4 py-3">
-              <h1 className="text-xl font-semibold tracking-wide text-[#8D8198]">Τεχνίκιον</h1>
-            </header>
-          ) : (
-            <header className="glass-panel-ambient sticky top-3 z-20 mt-2 overflow-hidden rounded-[32px] p-6 text-center">
-              <h1 className="text-3xl font-semibold tracking-wide text-[#8D8198]">Τεχνίκιον</h1>
-              <p className="mt-2 flex items-center justify-center gap-2 text-sm tracking-[0.22em] text-[#A194AA]"><Sparkles className="h-4 w-4" />tekh-NEE-kee-on</p>
-              <p className="mt-3 text-sm text-[#6D5E6C]">A soft local shell for future AI conversations.</p>
-            </header>
-          )
-        ) : null}
+      <main className="app-content page-width">
+        {activeTab === 'chat' && (
+          <PageContainer className="chat-page">
+            {!hasMessages ? <header className="glass-card glass-readable mx-1 mt-1 rounded-[30px] p-6 text-center"><h1 className="text-3xl font-semibold tracking-wide text-[#8D8198]">Τεχνίκιον</h1><p className="mt-2 text-sm tracking-[0.22em] text-[#A194AA]">tekh-NEE-kee-on</p><p className="mt-3 text-sm text-[#6D5E6C]">A soft local shell for future AI conversations.</p></header> : null}
+            <ChatScreen messages={messages} onScroll={() => undefined} />
+          </PageContainer>
+        )}
 
-        {activeTab === 'chat' && <ChatScreen messages={messages} onScroll={() => undefined} />}
-        {activeTab === 'settings' && <><section className="glass-panel-ambient mt-4 rounded-[28px] p-5 text-[#6f6075]"><p className="text-base font-medium">Settings</p><p className="mt-1 text-sm text-[#8f8297]">Configure providers and local app preferences.</p></section><SettingsScreen settings={settings || defaultSettings} onChange={setSettings} onFetchModels={handleFetchModels} isFetchingModels={isFetchingModels} modelsError={modelsError} /></>}
-        {activeTab === 'memory' && <section className="glass-panel-ambient mt-4 rounded-[28px] p-6 text-[#6f6075]"><p className="text-base font-medium">Memory</p><p className="mt-1 text-sm text-[#8f8297]">Important details can live here later.</p></section>}
-        {activeTab === 'journal' && <section className="glass-panel-ambient mt-4 rounded-[28px] p-6 text-[#6f6075]"><p className="text-base font-medium">Journal</p><p className="mt-1 text-sm text-[#8f8297]">Reflections will appear here when journal tools are added.</p></section>}
-        {activeTab === 'diagnostics' && <section className="glass-panel-ambient mt-4 rounded-[28px] p-6 text-[#6f6075]"><p className="text-base font-medium">Diagnostics</p><p className="mt-1 text-sm text-[#8f8297]">Companion telemetry will appear after Signal Lens is added.</p></section>}
-
-        {activeTab === 'chat' ? (
-          <form onSubmit={sendMessage} className="glass-panel-input fixed left-4 right-4 z-30 mx-auto max-w-xl rounded-[28px] p-2.5" style={{ bottom: 'calc(16px + env(safe-area-inset-bottom))' }}>
-            <div className="flex items-center gap-2">
-              <textarea value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Type a message" rows={1} className="input-base min-h-[52px] flex-1 rounded-full px-5 py-3" disabled={isSending} />
-              <button type="submit" disabled={isSending} className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E9B9C9] text-[#5B4050] shadow-[0_10px_22px_rgba(140,96,118,0.18)] transition hover:brightness-105 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#dcbad1] disabled:opacity-60">
-                <SendHorizonal className="h-5 w-5" />
-              </button>
-            </div>
-            {isSending ? <p className="mt-2 px-3 text-sm text-[#766777]">Waiting for provider response…</p> : null}
-            {chatError ? <p className="mt-2 px-3 text-sm text-[#8C2F39]">{chatError}</p> : null}
-          </form>
-        ) : null}
+        {activeTab === 'settings' && <PageContainer><PageTitleChip title="Settings" /><SettingsScreen settings={settings || defaultSettings} onChange={setSettings} onFetchModels={handleFetchModels} isFetchingModels={isFetchingModels} modelsError={modelsError} /></PageContainer>}
+        {activeTab === 'memory' && <PageContainer><PageTitleChip title="Memory" /><section className="glass-card glass-readable p-4 text-[#6f6075]"><p className="text-sm">Important details can live here later.</p></section></PageContainer>}
+        {activeTab === 'journal' && <PageContainer><PageTitleChip title="Journal" /><section className="glass-card glass-readable p-4 text-[#6f6075]"><p className="text-sm">Reflections will appear here when journal tools are added.</p></section></PageContainer>}
+        {activeTab === 'diagnostics' && <PageContainer><PageTitleChip title="Diagnostics" /><section className="glass-card glass-readable p-4 text-[#6f6075]"><p className="text-sm">Companion telemetry will appear after Signal Lens is added.</p></section></PageContainer>}
       </main>
+
+      {activeTab === 'chat' ? (
+        <FloatingGlassInput draft={draft} onDraftChange={setDraft} isSending={isSending} onSubmit={sendMessage} chatError={chatError} />
+      ) : null}
     </div>
   )
 }
