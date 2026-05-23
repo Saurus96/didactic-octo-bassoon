@@ -8,6 +8,14 @@ export interface ChatMessage {
   isMock?: boolean
 }
 
+export interface SavedChat {
+  id: string
+  title: string
+  createdAt: string
+  updatedAt: string
+  messages: ChatMessage[]
+}
+
 export type TabId = 'chat' | 'memory' | 'journal' | 'diagnostics' | 'settings'
 
 export type ProviderPresetId = 'groq' | 'gemini' | 'openrouter' | 'deepseek' | 'custom'
