@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
+import { BackgroundBlobs } from './components/BackgroundBlobs'
 import { ChatScreen } from './components/ChatScreen'
 import { FloatingGlassInput } from './components/FloatingGlassInput'
 import { GlassAppBar } from './components/GlassAppBar'
@@ -114,7 +115,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <TopProgressBar value={progress} />
-      <div className="background-blobs" aria-hidden="true"><span className="blob mint" /><span className="blob peach" /><span className="blob periwinkle" /><span className="blob lavender" /></div>
+      <BackgroundBlobs />
       <GlassAppBar onOpenNavigation={() => setDrawerOpen(true)} />
       <ModalDrawer
         isOpen={drawerOpen}
@@ -142,15 +143,15 @@ export default function App() {
       <main className="app-content page-width">
         {activeTab === 'chat' && (
           <PageContainer className="chat-page">
-            {!hasMessages ? <header className="glass-card glass-readable mx-1 mt-1 rounded-[30px] p-6 text-center"><h1 className="text-3xl font-semibold tracking-wide text-[#8D8198]">Τεχνίκιον</h1><p className="mt-2 text-sm tracking-[0.22em] text-[#A194AA]">tekh-NEE-kee-on</p><p className="mt-3 text-sm text-[#6D5E6C]">A soft local shell for future AI conversations.</p></header> : null}
+            {!hasMessages ? <header className="glass mx-1 mt-1 rounded-[30px] p-6 text-center"><h1 className="wordmark text-[34px] text-[#7f708c]">Τεχνίκιον</h1><p className="mt-3 text-sm text-[#5f5261]">A soft local shell for future AI conversations.</p></header> : null}
             <ChatScreen messages={messages} onScroll={() => undefined} />
           </PageContainer>
         )}
 
         {activeTab === 'settings' && <PageContainer><PageTitleChip title="Settings" /><SettingsScreen settings={settings || defaultSettings} onChange={setSettings} onFetchModels={handleFetchModels} isFetchingModels={isFetchingModels} modelsError={modelsError} /></PageContainer>}
-        {activeTab === 'memory' && <PageContainer><PageTitleChip title="Memory" /><section className="glass-card glass-readable p-4 text-[#6f6075]"><p className="text-sm">Important details can live here later.</p></section></PageContainer>}
-        {activeTab === 'journal' && <PageContainer><PageTitleChip title="Journal" /><section className="glass-card glass-readable p-4 text-[#6f6075]"><p className="text-sm">Reflections will appear here when journal tools are added.</p></section></PageContainer>}
-        {activeTab === 'diagnostics' && <PageContainer><PageTitleChip title="Diagnostics" /><section className="glass-card glass-readable p-4 text-[#6f6075]"><p className="text-sm">Companion telemetry will appear after Signal Lens is added.</p></section></PageContainer>}
+        {activeTab === 'memory' && <PageContainer><PageTitleChip title="Memory" /><section className="glass glass-soft glass-card p-4 text-[#6f6075]"><p className="text-sm">Important details can live here later.</p></section></PageContainer>}
+        {activeTab === 'journal' && <PageContainer><PageTitleChip title="Journal" /><section className="glass glass-soft glass-card p-4 text-[#6f6075]"><p className="text-sm">Reflections will appear here when journal tools are added.</p></section></PageContainer>}
+        {activeTab === 'diagnostics' && <PageContainer><PageTitleChip title="Diagnostics" /><section className="glass glass-soft glass-card p-4 text-[#6f6075]"><p className="text-sm">Companion telemetry will appear after Signal Lens is added.</p></section></PageContainer>}
       </main>
 
       {activeTab === 'chat' ? (
