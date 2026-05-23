@@ -14,25 +14,34 @@ body {
   min-height: 100dvh;
 }
 
+.glass-panel-ambient,
 .glass-panel-soft {
-  background: linear-gradient(160deg, rgba(255, 251, 249, 0.76), rgba(252, 239, 244, 0.6));
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.5), rgba(252, 239, 244, 0.4));
   backdrop-filter: blur(26px);
-  border: 1px solid rgba(255, 246, 249, 0.75);
-  box-shadow: 0 12px 32px rgba(117, 93, 112, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 8px 20px rgba(117, 93, 112, 0.08);
+}
+
+.glass-panel,
+.glass-panel-readable {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.7), rgba(246, 232, 243, 0.62));
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 247, 251, 0.74);
+  box-shadow: 0 8px 18px rgba(117, 93, 112, 0.09);
 }
 
 .glass-panel-input {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.66);
   backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 246, 249, 0.82);
-  box-shadow: 0 14px 34px rgba(117, 93, 112, 0.15);
+  border: 1px solid rgba(255, 246, 249, 0.72);
+  box-shadow: 0 12px 26px rgba(117, 93, 112, 0.1);
 }
 
 .input-base {
   width: 100%;
   border-radius: 1rem;
-  border: 1px solid rgba(215, 199, 220, 0.85);
-  background: rgba(255, 252, 251, 0.88);
+  border: 1px solid rgba(215, 199, 220, 0.78);
+  background: rgba(255, 252, 251, 0.75);
   padding: 0.7rem 0.9rem;
   color: #4f414c;
   outline: none;
