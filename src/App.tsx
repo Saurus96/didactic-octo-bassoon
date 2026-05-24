@@ -42,7 +42,6 @@ export default function App() {
 
   const activeChat = useMemo(() => chats.find((chat) => chat.id === activeChatId) ?? null, [activeChatId, chats])
   const messages = activeChat?.messages ?? []
-  const hasMessages = messages.length > 0
   const progress = useMemo(() => Math.min(100, Math.max(8, Math.round((messages.length % 24) * 4.2))), [messages.length])
 
   const createFreshChat = () => {
@@ -143,15 +142,14 @@ export default function App() {
       <main className="app-content page-width">
         {activeTab === 'chat' && (
           <PageContainer className="chat-page">
-            {!hasMessages ? <header className="glass mx-1 mt-1 rounded-[30px] p-6 text-center"><h1 className="wordmark text-[34px] text-[#7f708c]">Τεχνίκιον</h1><p className="mt-3 text-sm text-[#5f5261]">A soft local shell for future AI conversations.</p></header> : null}
             <ChatScreen messages={messages} onScroll={() => undefined} />
           </PageContainer>
         )}
 
         {activeTab === 'settings' && <PageContainer><PageTitleChip title="Settings" /><SettingsScreen settings={settings || defaultSettings} onChange={setSettings} onFetchModels={handleFetchModels} isFetchingModels={isFetchingModels} modelsError={modelsError} /></PageContainer>}
-        {activeTab === 'memory' && <PageContainer><PageTitleChip title="Memory" /><section className="glass glass-soft glass-card p-4 text-[#6f6075]"><p className="text-sm">Important details can live here later.</p></section></PageContainer>}
-        {activeTab === 'journal' && <PageContainer><PageTitleChip title="Journal" /><section className="glass glass-soft glass-card p-4 text-[#6f6075]"><p className="text-sm">Reflections will appear here when journal tools are added.</p></section></PageContainer>}
-        {activeTab === 'diagnostics' && <PageContainer><PageTitleChip title="Diagnostics" /><section className="glass glass-soft glass-card p-4 text-[#6f6075]"><p className="text-sm">Companion telemetry will appear after Signal Lens is added.</p></section></PageContainer>}
+        {activeTab === 'memory' && <PageContainer><PageTitleChip title="Memory" /><section className="glass-surface glass-card p-4 text-[#5e5264]"><p className="text-sm">Important details can live here later.</p></section></PageContainer>}
+        {activeTab === 'journal' && <PageContainer><PageTitleChip title="Journal" /><section className="glass-surface glass-card p-4 text-[#5e5264]"><p className="text-sm">Reflections will appear here when journal tools are added.</p></section></PageContainer>}
+        {activeTab === 'diagnostics' && <PageContainer><PageTitleChip title="Diagnostics" /><section className="glass-surface glass-card p-4 text-[#5e5264]"><p className="text-sm">Companion telemetry will appear after Signal Lens is added.</p></section></PageContainer>}
       </main>
 
       {activeTab === 'chat' ? (

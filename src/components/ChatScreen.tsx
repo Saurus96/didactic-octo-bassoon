@@ -12,7 +12,7 @@ export function ChatScreen({ messages, onScroll }: ChatScreenProps) {
   return (
     <section onScroll={(event) => onScroll(event.currentTarget.scrollTop)} className="chat-scroll">
       {messages.length === 0 ? (
-        <div className="glass-card glass-readable mt-3 rounded-[24px] p-5 text-center text-[#6f6075]">
+        <div className="glass-surface mt-3 rounded-[24px] p-5 text-center text-[#5f5365]">
           <p className="text-base font-medium">Begin a thread.</p>
           <p className="mt-1 text-sm text-[#8f8297]">Τεχνίκιον is ready when you are.</p>
         </div>
