@@ -10,8 +10,10 @@ interface Props {
 }
 
 export function FloatingGlassInput({ draft, onDraftChange, isSending, chatError, onSubmit }: Props) {
+  const canSend = draft.trim().length > 0 && !isSending
+
   return (
-    <form onSubmit={onSubmit} className="floating-glass-input page-width">
+    <form onSubmit={onSubmit} className="floating-glass-input page-width glass-surface">
       <input
         value={draft}
         onChange={(event) => onDraftChange(event.target.value)}
@@ -19,7 +21,7 @@ export function FloatingGlassInput({ draft, onDraftChange, isSending, chatError,
         className="floating-glass-input__field"
         disabled={isSending}
       />
-      <button type="submit" disabled={isSending} className="floating-glass-input__send" aria-label="Send message">
+      <button type="submit" disabled={!canSend} className={`floating-glass-input__send ${canSend ? 'iridescent-accent is-active' : ''}`} aria-label="Send message">
         <SendHorizonal className="h-4 w-4" />
       </button>
       {isSending ? <p className="floating-input-status">Waiting for provider response…</p> : null}
