@@ -12,7 +12,7 @@ export function GlassAppBar({ onOpenNavigation }: GlassAppBarProps) {
         </button>
 
         <div className="identity-block">
-          <Wordmark className="identity-wordmark iridescent-text" />
+          <Wordmark className="identity-wordmark" />
           <p className="identity-pronunciation"><span className="sparkle-accent" aria-hidden="true">✦</span> tekh-NEE-kee-on</p>
           <p className="identity-tagline">A soft local shell for future AI conversations.</p>
         </div>
