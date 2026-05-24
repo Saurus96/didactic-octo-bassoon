@@ -7,7 +7,7 @@ export function GlassAppBar({ onOpenNavigation }: GlassAppBarProps) {
   return (
     <header className="app-bar-wrap">
       <div className="app-bar glass-surface page-width">
-        <button type="button" aria-label="Open navigation" onClick={onOpenNavigation} className="icon-hit interactive glass-surface">
+        <button type="button" aria-label="Open navigation" onClick={onOpenNavigation} className="icon-hit interactive header-menu-button">
           <Menu className="h-5 w-5" />
         </button>
 

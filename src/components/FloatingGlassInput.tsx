@@ -13,7 +13,7 @@ export function FloatingGlassInput({ draft, onDraftChange, isSending, chatError,
   const canSend = draft.trim().length > 0 && !isSending
 
   return (
-    <form onSubmit={onSubmit} className="floating-glass-input page-width glass-surface">
+    <form onSubmit={onSubmit} className="floating-glass-input glass-surface">
       <input
         value={draft}
         onChange={(event) => onDraftChange(event.target.value)}

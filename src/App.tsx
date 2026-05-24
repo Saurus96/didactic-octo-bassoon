@@ -39,6 +39,7 @@ export default function App() {
   const [chatError, setChatError] = useState<string | null>(null)
   const [modelsError, setModelsError] = useState<string | null>(null)
   const [isFetchingModels, setIsFetchingModels] = useState(false)
+  const [fetchedModels, setFetchedModels] = useState<string[]>([])
 
   const activeChat = useMemo(() => chats.find((chat) => chat.id === activeChatId) ?? null, [activeChatId, chats])
   const messages = activeChat?.messages ?? []
@@ -103,7 +104,7 @@ export default function App() {
     setIsFetchingModels(true)
     try {
       const modelIds = await fetchProviderModels(settings)
-      if (modelIds.length > 0) setSettings({ ...settings, model: modelIds[0] })
+      setFetchedModels(modelIds)
     } catch (error) {
       setModelsError(error instanceof ProviderError ? error.message : 'Unexpected error while fetching models.')
     } finally {
@@ -146,7 +147,7 @@ export default function App() {
           </PageContainer>
         )}
 
-        {activeTab === 'settings' && <PageContainer><PageTitleChip title="Settings" /><SettingsScreen settings={settings || defaultSettings} onChange={setSettings} onFetchModels={handleFetchModels} isFetchingModels={isFetchingModels} modelsError={modelsError} /></PageContainer>}
+        {activeTab === 'settings' && <PageContainer><h1 className="settings-title text-[15px] font-semibold text-[#655771]">Settings</h1><SettingsScreen settings={settings || defaultSettings} onChange={setSettings} onFetchModels={handleFetchModels} fetchedModels={fetchedModels} isFetchingModels={isFetchingModels} modelsError={modelsError} /></PageContainer>}
         {activeTab === 'memory' && <PageContainer><PageTitleChip title="Memory" /><section className="glass-surface glass-card p-4 text-[#5e5264]"><p className="text-sm">Important details can live here later.</p></section></PageContainer>}
         {activeTab === 'journal' && <PageContainer><PageTitleChip title="Journal" /><section className="glass-surface glass-card p-4 text-[#5e5264]"><p className="text-sm">Reflections will appear here when journal tools are added.</p></section></PageContainer>}
         {activeTab === 'diagnostics' && <PageContainer><PageTitleChip title="Diagnostics" /><section className="glass-surface glass-card p-4 text-[#5e5264]"><p className="text-sm">Companion telemetry will appear after Signal Lens is added.</p></section></PageContainer>}
