@@ -1,7 +1,6 @@
-# Τεχνίκιον
+# (Private Name)
 
-**tekh-NEE-kee-on**  
-A soft local shell for future AI conversations.
+**(Private Name)**  
 
 This project is a mobile-first React + TypeScript + Vite app focused on a cozy local-shell chat experience with real provider connectivity and local mock mode.
 
